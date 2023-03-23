@@ -1,6 +1,5 @@
 const express = require("express");
 const axios = require("axios");
-const bodyParser = require("body-parser");
 
 require("dotenv").config();
 
@@ -8,13 +7,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
-app.use(bodyParser.json());
 
 app.get("/zipcode-api", async (req, res) => {
-  const zipCode = req.body.zipCode;
+  const zipcode = req.query.zipcode;
   try {
     const response = await axios.get(
-      `${process.env.SMARTYSTREETS_URL}lookup?&auth-id=${process.env.SMARTYSTREETS_ID}&auth-token=${process.env.SMARTYSTREETS_TOKEN}&zipcode=${zipCode}`
+      `${process.env.SMARTYSTREETS_URL}lookup?&auth-id=${process.env.SMARTYSTREETS_ID}&auth-token=${process.env.SMARTYSTREETS_TOKEN}&zipcode=${zipcode}`
     );
     res.status(response.status).json(response.data);
   } catch (error) {
